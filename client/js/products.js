@@ -4,7 +4,7 @@ const productos = [
         productName: "Banana",
         price: 400,
         quantity: 1,
-        img: "/client/media/banana.jpg",
+        img: "/client/media/banana.png",
     },
     {
         id: 2,
