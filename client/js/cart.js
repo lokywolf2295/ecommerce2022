@@ -37,7 +37,7 @@ const displayCart = () => {
             <div class="product-info">
                 <h4>${product.productName}</h4>
             </div>
-            <div class="product-quantity">
+            <div class="quantity">
                 <span class="quantity-btn-decrese">-</span>
                 <span class="quantity-input">${product.quanty}</span>
                 <span class="quantity-btn-increse">+</span>
