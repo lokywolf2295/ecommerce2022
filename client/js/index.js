@@ -3,15 +3,16 @@ const cart = []; //Este es nuestro carrito, un array vacío
 
 productos.forEach((product) => {
     const content = document.createElement("div");
+    content.className = "card";
     content.innerHTML = `
     <img src="${product.img}">
     <h3>${product.productName}</h3>
-    <p>${product.price} $</p>
+    <p class="price">${product.price} $</p>
     `;
     shopContent.append(content);
 
     const buyButton = document.createElement("button");
-    buyButton.innerHTML = "Comprar";
+    buyButton.innerText = "Buy";
 
     content.append(buyButton);
 
@@ -22,7 +23,7 @@ productos.forEach((product) => {
             price: product.price,
             quanty: product.quanty,
             img: product.img,
-        })
+        });
         console.log(cart);
-    })
+    });
 });
