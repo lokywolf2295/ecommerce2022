@@ -64,11 +64,12 @@ const displayCart = () => {
   });
 
   //modal footer
+  const total = cart.reduce((acc, element) => acc + element.price * element.quanty, 0); //reduce es un método que recibe una función y un valor inicial, en este caso 0. La función recibe dos parámetros, el acumulador y el elemento actual. En este caso, el acumulador es acc y el elemento actual es element. La función suma el precio por la cantidad de cada producto y lo va sumando al acumulador. Al final, reduce devuelve el valor del acumulador, que es el total de la compra.
 
   const modalFooter = document.createElement("div");
   modalFooter.className = "modal-footer";
   modalFooter.innerHTML = `
-        <div class="total-price">Total :)</div>
+        <div class="total-price">${total}</div>
 
   `;
   modalContainer.append(modalFooter);
