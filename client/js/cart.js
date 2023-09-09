@@ -47,6 +47,20 @@ const displayCart = () => {
         </div>
         `;
     modalContainer.append(modalBody);
+
+    const decrese = modalBody.querySelector(".quantity-btn-decrese");
+    decrese.addEventListener("click", () => {
+      if (product.quanty != 1) {
+        product.quanty --;
+        displayCart();
+      }
+    });
+
+    const increse = modalBody.querySelector(".quantity-btn-increse");
+    increse.addEventListener("click", () => {
+      product.quanty ++;
+      displayCart();
+    });
   });
 
   //modal footer
@@ -55,7 +69,7 @@ const displayCart = () => {
   modalFooter.className = "modal-footer";
   modalFooter.innerHTML = `
         <div class="total-price">Total :)</div>
-        
+
   `;
   modalContainer.append(modalFooter);
 };
