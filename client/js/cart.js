@@ -61,6 +61,12 @@ const displayCart = () => {
       product.quanty ++;
       displayCart();
     });
+
+    //delete
+    const deleteProduct = modalBody.querySelector(".delete-product");
+    deleteProduct.addEventListener("click", () => {
+      deleteCartProduct(product.id);
+    });
   });
 
   //modal footer
@@ -76,3 +82,8 @@ const displayCart = () => {
 };
 
 cartBtn.addEventListener("click", displayCart);
+
+const deleteCartProduct = (id) => {
+  const foundId = cart.findIndex((element) => element.id === id);
+  console.log(foundId);
+};
