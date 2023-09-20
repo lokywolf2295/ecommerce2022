@@ -29,59 +29,66 @@ const displayCart = () => {
   modalContainer.append(modalHeader);
 
   //modal body
-  cart.forEach((product) => {
-    const modalBody = document.createElement("div");
-    modalBody.className = "modal-body";
-    modalBody.innerHTML = `
-        <div class="product">
-            <img class="product-img" src="${product.img}"/>
-            <div class="product-info">
-                <h4>${product.productName}</h4>
-            </div>
-            <div class="quantity">
-                <span class="quantity-btn-decrese">-</span>
-                <span class="quantity-input">${product.quanty}</span>
-                <span class="quantity-btn-increse">+</span>
-            </div>
-            <div class="price">${product.price * product.quanty} $</div>
-            <div class="delete-product">❌</div>
-        </div>
-        `;
-    modalContainer.append(modalBody);
-
-    const decrese = modalBody.querySelector(".quantity-btn-decrese");
-    decrese.addEventListener("click", () => {
-      if (product.quanty != 1) {
-        product.quanty --;
+  if(cart.length > 0){
+    cart.forEach((product) => {
+      const modalBody = document.createElement("div");
+      modalBody.className = "modal-body";
+      modalBody.innerHTML = `
+          <div class="product">
+              <img class="product-img" src="${product.img}"/>
+              <div class="product-info">
+                  <h4>${product.productName}</h4>
+              </div>
+              <div class="quantity">
+                  <span class="quantity-btn-decrese">-</span>
+                  <span class="quantity-input">${product.quanty}</span>
+                  <span class="quantity-btn-increse">+</span>
+              </div>
+              <div class="price">${product.price * product.quanty} $</div>
+              <div class="delete-product">❌</div>
+          </div>
+          `;
+      modalContainer.append(modalBody);
+  
+      const decrese = modalBody.querySelector(".quantity-btn-decrese");
+      decrese.addEventListener("click", () => {
+        if (product.quanty != 1) {
+          product.quanty --;
+          displayCart();
+          displayCartCounter();
+        }
+      });
+  
+      const increse = modalBody.querySelector(".quantity-btn-increse");
+      increse.addEventListener("click", () => {
+        product.quanty ++;
         displayCart();
         displayCartCounter();
-      }
+      });
+  
+      //delete
+      const deleteProduct = modalBody.querySelector(".delete-product");
+      deleteProduct.addEventListener("click", () => {
+        deleteCartProduct(product.id);
+      });
     });
 
-    const increse = modalBody.querySelector(".quantity-btn-increse");
-    increse.addEventListener("click", () => {
-      product.quanty ++;
-      displayCart();
-      displayCartCounter();
-    });
+    //modal footer
+    const total = cart.reduce((acc, element) => acc + element.price * element.quanty, 0); //reduce es un método que recibe una función y un valor inicial, en este caso 0. La función recibe dos parámetros, el acumulador y el elemento actual. En este caso, el acumulador es acc y el elemento actual es element. La función suma el precio por la cantidad de cada producto y lo va sumando al acumulador. Al final, reduce devuelve el valor del acumulador, que es el total de la compra.
 
-    //delete
-    const deleteProduct = modalBody.querySelector(".delete-product");
-    deleteProduct.addEventListener("click", () => {
-      deleteCartProduct(product.id);
-    });
-  });
+    const modalFooter = document.createElement("div");
+    modalFooter.className = "modal-footer";
+    modalFooter.innerHTML = `
+          <div class="total-price">Total: ${total}</div>
 
-  //modal footer
-  const total = cart.reduce((acc, element) => acc + element.price * element.quanty, 0); //reduce es un método que recibe una función y un valor inicial, en este caso 0. La función recibe dos parámetros, el acumulador y el elemento actual. En este caso, el acumulador es acc y el elemento actual es element. La función suma el precio por la cantidad de cada producto y lo va sumando al acumulador. Al final, reduce devuelve el valor del acumulador, que es el total de la compra.
-
-  const modalFooter = document.createElement("div");
-  modalFooter.className = "modal-footer";
-  modalFooter.innerHTML = `
-        <div class="total-price">Total: ${total}</div>
-
-  `;
-  modalContainer.append(modalFooter);
+    `;
+    modalContainer.append(modalFooter);
+    }else{
+      const modalText = document.createElement("h2");
+      modalText.className = "modal-body";
+      modalText.innerText = "Your cart is empty";
+      modalContainer.append(modalText);
+    }
 };
 
 cartBtn.addEventListener("click", displayCart);
