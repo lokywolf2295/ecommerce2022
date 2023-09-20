@@ -2,6 +2,7 @@ const modalContainer = document.getElementById("modal-container");
 const modalOverlay = document.getElementById("modal-overlay");
 
 const cartBtn = document.getElementById("cart-btn");
+const cartCounter = document.getElementById("cart-counter");
 
 const displayCart = () => {
   modalContainer.innerHTML = "";
@@ -53,6 +54,7 @@ const displayCart = () => {
       if (product.quanty != 1) {
         product.quanty --;
         displayCart();
+        displayCartCounter();
       }
     });
 
@@ -60,6 +62,7 @@ const displayCart = () => {
     increse.addEventListener("click", () => {
       product.quanty ++;
       displayCart();
+      displayCartCounter();
     });
 
     //delete
@@ -75,7 +78,7 @@ const displayCart = () => {
   const modalFooter = document.createElement("div");
   modalFooter.className = "modal-footer";
   modalFooter.innerHTML = `
-        <div class="total-price">${total}</div>
+        <div class="total-price">Total: ${total}</div>
 
   `;
   modalContainer.append(modalFooter);
@@ -88,4 +91,15 @@ const deleteCartProduct = (id) => {
   console.log(foundId);
   cart.splice(foundId, 1);
   displayCart();
+  displayCartCounter();
+};
+
+const displayCartCounter = () => {
+  const cartLength = cart.reduce((acc, element) => acc + element.quanty, 0);
+  if (cart.length > 0) {
+    cartCounter.style.display = "block";
+    cartCounter.innerText = cartLength;
+  }else{
+    cartCounter.style.display = "none";
+  }
 };
