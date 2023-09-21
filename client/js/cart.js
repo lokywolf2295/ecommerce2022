@@ -1,3 +1,6 @@
+const { error } = require("console");
+const { create } = require("domain");
+
 const modalContainer = document.getElementById("modal-container");
 const modalOverlay = document.getElementById("modal-overlay");
 
@@ -91,7 +94,59 @@ const displayCart = () => {
     });
 
     const checkoutButton = modalFooter.querySelector("#checkout-btn");
-    }else{
+    
+    checkoutButton.addEventListener("click", function() {
+      
+      checkoutButton.remove();
+
+      const orderData = {
+        quanty: 1,
+        description: "Compra de productos",
+        price: total,
+      };
+
+      fetch("/create_preference", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (preference) {
+          createCheckoutButton(preference.id);
+        })
+        .catch(function () {
+          alert("Unexpected error");
+        });
+    });
+
+    function createCheckoutButton(preference) {
+      // Initialize the checkout
+      const bricksBuilder = mercadopago.bricks();
+
+      const renderComponent = async (bricksBuilder) => {
+        // if (window.checkoutButton) checkoutButton.unmount();
+
+        await bricksBuilder.create(
+          "wallet",
+          "button-checkout", // class/id where the payment button will be displayed
+          {
+            initialization: {
+              preferenceId: preferenceId,
+            },
+            callbacks: {
+              onError: (error) => console.log(error),
+              onReady: () => {},
+            },
+          }
+        );
+      };
+      window.checkoutButton = renderComponent(bricksBuilder);
+    }
+  }else{
       const modalText = document.createElement("h2");
       modalText.className = "modal-body";
       modalText.innerText = "Your cart is empty";
