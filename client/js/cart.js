@@ -88,7 +88,7 @@ const displayCart = () => {
 
     //mp
     const mercadopago = new MercadoPago(
-      "TEST-4f72475f-2102-45cd-8324-b35bb6d8ad01",
+      "public_key",
       {
         locale: "es-AR", // The most common are: 'es-AR', 'pt-BR' and 'en-US'
       }
